@@ -1,7 +1,8 @@
 - name: parser example
   hosts: all
   gather_facts: no
-  connection: network_cli
+  connection: local
+
   roles:
    - parse_genie
  
