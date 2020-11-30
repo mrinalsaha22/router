@@ -2,13 +2,17 @@
   hosts: all
   gather_facts: no
   connection: local
-
+  
+  
   roles:
    - parse_genie
  
   tasks:
    - name: show version
      ios_command:
+       provider:
+         username: cisco
+         password: cisco
        commands:
         - show version
      register: version
