@@ -1,0 +1,72 @@
+- name: parser example
+  hosts: all
+  gather_facts: no
+  connection: local
+
+
+  roles:
+   - parse_genie
+
+  tasks:
+   - name: show version
+     ios_command:
+       provider:
+         username: cisco
+         password: cisco
+       commands:
+        - show version
+     register: version
+
+   - name: Set Fact Genie Filter
+     set_fact:
+        pyats_version: "{{ version['stdout'][0] | parse_genie(command='show version', os='ios') }}"
+
+   - name: Debug Genie Filter
+     debug:
+        var: pyats_version
+   
+   
+
+   # Example 1 showing version information
+   - name: Debug Pyats facts
+     debug:
+        var: pyats_version.version.version
+
+# Example 2 showing uptime
+   - name: Debug Pyats facts
+     debug:
+        var: pyats_version.version.uptime
+
+   - name: Create an incident
+     snow_record:
+      state: present
+      table: incident
+      username: "admin"
+      password: "Cq8AlqODRgd2"
+      instance: "dev86612"
+      data:
+        priority: "2"
+        u_device_up_time: "{{ pyats_version.version.uptime }}"
+        u_ios_version: "{{ pyats_version.version.version }}"
+        u_hostname: "{{ pyats_version.version.hostname }}"
+        u_platform: "{{ pyats_version.version.platform }}"
+        u_device_type: "{{ pyats_version.version.rtr_type }}"
+        u_serial_number: "{{ pyats_version.version.chassis_sn }}"
+        u_last_reload_reason: "{{ pyats_version.version.last_reload_reason }}"
+        short_description: "This ticket was created by Ansible"
+
+   - debug: var=new_incident.record.number
+
+
+   - name: Close task
+     snow_record:
+      state: present
+      table: sc_req_item
+      number: RITM0010032
+      username: "admin"
+      password: "Cq8AlqODRgd2"
+      instance: "dev86612"
+      data:
+        state: 3
+        work_notes: "Change Closed"
+        
