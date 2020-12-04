@@ -1,0 +1,22 @@
+- name: parser example
+  hosts: all
+  gather_facts: no
+  connection: local
+
+
+
+  tasks:
+
+
+   - name: start the change
+     snow_record:
+      state: present
+      table: sc_req_item
+      number:  "{{ req_item_number }}"
+      username: "admin"
+      password: "Cq8AlqODRgd2"
+      instance: "dev86612"
+      data:
+        state: 2
+        work_notes: "Starting the requested item {{ req_item_number }}{{ request_number }}"
+        
