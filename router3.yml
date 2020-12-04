@@ -12,10 +12,10 @@
      snow_record:
       state: present
       table: sc_req_item
-      number: RITM0010032
+      number:  "{{ req_item_number }}"
       username: "admin"
       password: "Cq8AlqODRgd2"
-      instance: "{{ req_item_number }}"
+      instance: "dev86612"
       data:
         state: 3
         work_notes: "Change Closed"
