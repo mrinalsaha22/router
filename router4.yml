@@ -18,5 +18,5 @@
       instance: "dev86612"
       data:
         state: 2
-        work_notes: "Starting the requested item {{ req_item_number }}{{ request_number }}"
+        work_notes: "Starting the requested item {{ req_item_number }} Request number {{ request_number }}"
         
