@@ -1,5 +1,5 @@
 - name: parser example
-  hosts: all
+  hosts: localhost
   gather_facts: no
   connection: local
 
@@ -11,6 +11,7 @@
    - name: show version
      ios_command:
        provider:
+         host: "{{ host }}"
          username: cisco
          password: cisco
        commands:
