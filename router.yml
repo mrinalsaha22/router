@@ -54,5 +54,5 @@
         u_serial_number: "{{ pyats_version.version.chassis_sn }}"
         u_last_reload_reason: "{{ pyats_version.version.last_reload_reason }}"
         short_description: "This ticket was created by Ansible"
-
+     register: new_incident
    - debug: var=new_incident.record.number
