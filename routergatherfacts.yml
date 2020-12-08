@@ -1,0 +1,39 @@
+- name: parser example
+  hosts: all
+  gather_facts: no
+  connection: local
+
+
+  roles:
+   - parse_genie
+
+  tasks:
+   - name: show version
+     ios_command:
+       provider:
+         username: cisco
+         password: cisco
+       commands:
+        - show version
+     register: version
+
+   - name: Set Fact Genie Filter
+     set_fact:
+        pyats_version: "{{ version['stdout'][0] | parse_genie(command='show version', os='ios') }}"
+
+   - name: Debug Genie Filter
+     debug:
+        var: pyats_version
+   
+   
+
+   # Example 1 showing version information
+   - name: Debug Pyats facts
+     debug:
+        var: pyats_version.version.version
+
+# Example 2 showing uptime
+   - name: Debug Pyats facts
+     debug:
+        var: pyats_version.version.uptime
+
