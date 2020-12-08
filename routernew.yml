@@ -1,5 +1,5 @@
 - name: parser example
-  hosts: localhost 
+  hosts: all
   gather_facts: no
   connection: local
 
